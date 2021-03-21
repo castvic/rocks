@@ -1,3 +1,5 @@
+from flask import Flask, jsonify, make_response, request
+import functions
 
 example_1='''. .
 . .
@@ -24,13 +26,22 @@ def hello():
 #Handle Post Requests
 @app.route('/',methods = ['POST'])
 def initialize():
+    return "POST"
 
 #Handle Put Requests
 @app.route('/',methods = ['PUT'])
+def update():
+    req = request.get_json()
+    input = req['rocks']
+    world = convert_to_world(input, world)
+    print(input)
+    return "PUT"
 
 
 #Handle Delete Requests
 @app.route('/',methods = ['DELETE'])
+def delete():
+    return "DELETE"
 
 if __name__ == '__main__':
     app.run()
