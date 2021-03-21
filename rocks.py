@@ -6,21 +6,15 @@
 from flask import Flask, jsonify, make_response, request
 import functions
 
-example_1='''. .
-. .
- :T.
-. .
- .'''
+app = Flask(__name__)
 
-print(example_1)
 col1 = []
 col2 = []
 col3 = []
 col4 = []
 world = [col1, col2, col3, col4]
-worlds[]
+worlds = []
 world_index = -1
-app = Flask(__name__)
 
 
 #Handle Get Requests
@@ -42,9 +36,16 @@ def initialize():
     worlds[world_index]=[]
     #process input
     worlds[world_index] = convert_to_world(input)
-    
+    worlds[world_index] = apply_gravity(world)
+
     #format output
-    return "POST"
+    return_text = world_to_string(worlds[world_index])
+    response = jsonify(
+        data = return_text,
+        id = world_index
+    )
+
+    return response
 
 #Handle Put Requests - Assume "PUT" is an update that drops a
 #   world on top of the existing world in memory, processes
