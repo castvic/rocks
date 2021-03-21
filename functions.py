@@ -1,8 +1,6 @@
 #   Functions for rocks.py  
 # 
 #   Overall TODOs
-#   TODO:   Create output function to translate world back in to
-#           string
 #   TODO:   Create function to process input to identify characters
 #           that are invalid input and return an error (error handling)
 #           in general
@@ -69,7 +67,6 @@ def apply_gravity(world):
             above_table = combine_dots(above_table)
             column = below_table + above_table
         new_world.append(column)
-    #print(new_world)
     return new_world
 
 # Remove air " " from list and return list
@@ -86,13 +83,10 @@ def remove_air(column):
 # Take the input of a column list and return a list that has rocks
 # combined into ":"
 def combine_dots(column):
-    #print(column)
     length = len(column)
     skip = False
     for position in range(0, length):
-        #print(column[position])
         if skip == False:
-            #print(column[position])
             if column[position] == "." and column[position+1] == ".":
                 column[position] = ":"
                 column[position+1] = " "
@@ -109,19 +103,16 @@ def world_to_string(world):
     world_string = ""
     column_heights = columns_max_height(world)
     tallest_height = columns_tallest(column_heights)
-    for height in range(tallest_height, -1, -1):
-        print("height: " + str(height))
+
+    for height in range(tallest_height, 0, -1):
         for column in world:
-            print(column)
             col_length = len(column)
-            print("length: " + str(col_length))
             if height > col_length:
                 world_string = world_string + " "
             else:
                 world_string = world_string + column[height - 1]
         if height > 1:
             world_string = world_string + "\n"
-        print(world_string)
     return world_string
 
 # Find height for each column in array and return a list of heights
@@ -138,23 +129,32 @@ def columns_tallest(column_heights):
     return column_heights[-1]
 
 
+#
+# Takes in two array worlds and stacks them on top of eachother
+# to return a pre-gravity world.
+def stack_worlds(original_world, new_world):
+    result =[]
+    for col in range(0,4):
+        new_column = original_world[col] + new_world[col]
+        result.append(new_column)
+    return result
 
 
+# testing functions
+# 
+# world = []
+# text='''. .
+# . .
+#  :T.
+# . .
+# .'''
 
-
-world = []
-text='''. .
-. .
- :T.
-. .
-.'''
-
-world = convert_to_world(text)
-worlds = [world]
-print("Next Function")
-#print(world)
-newworld = apply_gravity(world)
-new_world_string = world_to_string(newworld)
-print(new_world_string)
+# world = convert_to_world(text)
+# worlds = [world]
+# print("Next Function")
+# #print(world)
+# newworld = apply_gravity(world)
+# new_world_string = world_to_string(newworld)
+# print(new_world_string)
 
 
