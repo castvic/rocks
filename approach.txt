@@ -1,0 +1,24 @@
+Rocks exercise - Victor Castanon
+
+As this was my first real foray into programming in python (I've mostly worked in Mumps with Epic) I figured I first needed to take a bit of a crash course in Python. I've been using M1mo for a few days passively.
+
+Firstly, I need to figure out how to stand up an endpoint. After some googling, I came upon some suggestions to use Flask. In rocks.py I implemented the POST, PUT, DELETE and GET methods. I created a function call for each. I needed to maintain the state of each "world" across request/response calls so I declared a global variable at the top. 
+
+The closest thing to the array structure I was used to in Mumps was a list of lists, at least based on my limited experience. In Mumps I'd use an array(x pos,y pos)="T" for example but that doesn't exist in this context. I decided on that and decided to start with the POST function to generate our initial world state. I decided to break this into a seperate file for ease in testing.
+
+Here I made an assumption that the input would be formatted as a multi-line string. I had to take the input from the request body "rocks" JSON element and convert that string into my list of lists. Unfortunately, I wasn't quite sure how to make the list extendable when I started the project to accommodate multiple widths. I decided to assume a world of width four so our worlds would be a world(column1 , column2, column3, column4) and try to come back later if I had time to enhance this. In the end I didn't have the time. The convert_to_world function handles this translation.
+
+I then decided I should apply the gravity processing (apply_gravity). For this I took the my world array and iterated over each list within processing the strings " ", ".", "T", ":".  My first thought was to trim out all the air " " elements to drop the items lower in the column. I first had to apply the rules established for the T character to make sure items didn't fall below the tables. Unfortunately when I began this process I had misinterpreted the rules and thought that condition only applied the objects directly above the table. I realized this quite late in the time and realize that was a big requirement to miss in retrospect.  I also only programmed it to handle a single Table first with the intent to come back later, if I had time. That said I decided to keep the world consistent and added the removed air back to the end of the column.
+
+After processing gravity I append that world I created to the worlds list for a POST. I tested by running some code directly at the end of function.py initially and debugged. I then tried accessing the endpoint using YARC using the POST method. 
+
+I decided to handle updates via PUT. The intention was that the rocks element in the request body be converted into another world, then we'd drop that world on top of the other world and re-run the apply_gravity function and return the resultant world after that processed.
+
+Around this time I was running short on time. I made a GET and DELETE route. 
+
+For the get I had to accept a query string which expects a "world" input to locate the world in question.
+
+I didn't have time to do any error handling unfortunately or locking. I would have created a function to check the input to make sure it was valid. I also would have implemented some sort of locking global variable that would check to see if the world that is being requested to update is currently being used and return an error if that was in a state where it was currently being used.
+
+In terms of performance metrics I did not really have time to look into how python handles these. I'd assume theres something out there that I could use to store processor time for each function call to the global variable and then I can report off of that while the application is running via a call to another endpoint. Alternately we could log it to disk or a database should we implement one. 
+

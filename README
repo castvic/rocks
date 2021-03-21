@@ -1,0 +1,26 @@
+Rocks
+
+rocks.py
+Run this using the venv python interpreter. It will stand up an endpoint at http://localhost:5000/rocks
+
+You can interact with worlds that will then be subject to gravity by using the following methods
+
+POST - Create a new World
+Input is a json body with an element of "rocks" that is a new line seperated string of rocks ".", piles ":", tables "T", and air " " to form an input world like so:
+
+.  .
+. .T 
+ .  
+.
+
+This returns text/plain the index of the world created in order to access it later
+
+PUT - This adds elements on top of an existing world. 
+Input is a JSON body with the elements "rocks" that corresponds to the new input to be placed on top of the rocks and "world" which is the index corresponding to the world to update. This currently returns a string of the resultant updated world
+
+GET - This requires a query parament
+/rocks?world=<world index number>
+This will return an application/json response with world and rocks as the elements. world being the index of the world and rocks being the string that contains the world
+
+DELETE - 
+This requires a query string parameter of "world" with the world that we want to erase. This sets that list element to a blank list. This returns a JSON resonse with the success element set to true or false.

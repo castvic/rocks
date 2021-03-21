@@ -19,10 +19,8 @@ def convert_to_world(text):
     col3 = []
     col4 = []
     for line in text.splitlines():
-        print(line)
         for col in range(0,4):
             length = len(line)
-            print(col)
             if col >= length:
                 if col == 1:
                     col2.insert(0, " ")
